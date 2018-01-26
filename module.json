@@ -1,0 +1,47 @@
+{
+    "name": "InboxLinkcmdGlobal",
+    "desc": "Global link for inbox",
+    "type": [
+        "native"
+    ],
+    "skipTest": true,
+    "commandsViewModel": {
+        "commands": {
+            "InboxLinkCmdGlobal": {
+                "iconId": "homeInbox",
+                "title": "{{i18n.InboxLinkCmdGlobalTitle}}"
+            }
+        },
+        "commandHandlers": {
+            "InboxLinkCmdGlobalHandler": {
+                "id": "InboxLinkCmdGlobal",
+                "action": "activateInboxLinkCmdGlobal",
+                "activeWhen": true,
+                "visibleWhen": true
+            }
+        },
+        "commandPlacements": {
+            "InboxLinkCmdGlobalaw_globalToolbar": {
+                "id": "InboxLinkCmdGlobal",
+                "uiAnchor": "aw_globalToolbar",
+                "priority": 100
+            }
+        },
+        "actions": {
+            "activateInboxLinkCmdGlobal": {
+                "actionType": "JSFunction",
+                "method": "go",
+                "deps": "js/InboxLinkCmdGlobal.Service",
+                "inputData": {
+                    "location": "#/myTasks",
+                    "userUID":""
+                }
+            }
+        },
+        "i18n": {
+            "InboxLinkCmdGlobalTitle": [
+                "InboxLinkcmdGlobalMessages"
+            ]
+        }
+    }
+}
