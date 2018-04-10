@@ -10,12 +10,22 @@
             "InboxLinkCmdGlobal": {
                 "iconId": "homeInbox",
                 "title": "{{i18n.InboxLinkCmdGlobalTitle}}"
+            },
+            "GoHomeYourDrunk": {
+                "iconId": "homeHomeFolder",
+                "title": "{{i18n.InboxLinkCmdGlobalTitle}}"
             }
         },
         "commandHandlers": {
             "InboxLinkCmdGlobalHandler": {
                 "id": "InboxLinkCmdGlobal",
                 "action": "activateInboxLinkCmdGlobal",
+                "activeWhen": true,
+                "visibleWhen": true
+            },
+            "GoHomeYourDrunkHandler": {
+                "id": "GoHomeYourDrunk",
+                "action": "getHomeFolderProperty",
                 "activeWhen": true,
                 "visibleWhen": true
             }
@@ -25,23 +35,69 @@
                 "id": "InboxLinkCmdGlobal",
                 "uiAnchor": "aw_globalToolbar",
                 "priority": 100
+            },
+            "GoHomeYourDrunkaw_globalToolbar": {
+                "id": "GoHomeYourDrunk",
+                "uiAnchor": "aw_globalToolbar",
+                "priority": 100
             }
         },
         "actions": {
             "activateInboxLinkCmdGlobal": {
                 "actionType": "JSFunction",
                 "method": "go",
-                "deps": "js/InboxLinkCmdGlobal.Service",
+                "deps": "js/InboxLinkCmdGlobalService",
                 "inputData": {
-                    "location": "#/myTasks",
-                    "userUID":""
+                    "location": "#/teamTasks",
+                    "userUID": ""
+                }
+            },
+            "getHomeFolderProperty": {
+                "actionType": "JSFunction",
+                "method": "getProperties",
+                "deps": "soa/dataManagementService",
+                "inputData": {
+                    "uids": [
+                        "{{ctx.user.uid}}"
+                    ],
+                    "propNames": [
+                        "home_folder"
+                    ]
+                },
+                "outputData": {
+                    "ctx.user": "{{dataParseDefinitions:updateUserCtx}}"
+                },
+                "events": {
+                    "success": [{
+                        "name": "showHomeFolder"
+                    }]
+                }
+            },
+            "showHomeFolder": {
+                "actionType": "JSFunction",
+                "method": "goHomeYourDrunk",
+                "deps": "js/InboxLinkCmdGlobalService",
+                "inputData": {
+                    "location": "#/com.siemens.splm.clientfx.tcui.xrt.showObject?s_uid=",
+                    "userUID": "{{ctx.user.props.home_folder.dbValues[0]}}"
                 }
             }
         },
+        "onEvent": [{
+            "eventId": "showHomeFolder",
+            "action": "showHomeFolder"
+        }],
         "i18n": {
             "InboxLinkCmdGlobalTitle": [
                 "InboxLinkcmdGlobalMessages"
             ]
+        },
+        "dataParseDefinitions": {
+            "updateUserCtx": {
+                "outputFormatType": "ViewModelObject",
+                "dataInput": "plain[0]",
+                "operationType": "CREATE"
+            }
         }
     }
 }
