@@ -9,11 +9,6 @@ define(["app", "js/logService", "js/browserUtils", "js/locationNavigation.servic
         exports.go = function (location, uUID) {
                 _$state = browserUtils.getBaseURL() + location + uUID;
                 window.open(_$state, "_self");
-            },
-
-            exports.goHomeYourDrunk = function (location, uUID) {
-                _$state = browserUtils.getBaseURL() + location + uUID + "&uid=" + uUID;
-                window.open(_$state, "_self");
             }
         return exports;
 
